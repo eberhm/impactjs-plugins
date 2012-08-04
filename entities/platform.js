@@ -25,7 +25,7 @@
  *
  * If a route collides with the collision map, it skips to the next route
  */
-ig.module('game.entities.platform')
+ig.module('plugins.entities.platform')
     .requires('impact.entity')
     .defines(function() {
         EntityPlatform = ig.Entity.extend({
