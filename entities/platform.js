@@ -41,6 +41,7 @@ ig.module('plugins.entities.platform')
             currentRoute: 0,
             platformType: 'circular',
             className: '',
+            routeTimer: null,
             endRouteAnim: function() {},
             init: function(x, y, settings) {
                 this.parent(x, y, settings);
@@ -67,8 +68,12 @@ ig.module('plugins.entities.platform')
                 this.parent(res);
 
                 if (res.collision.x || res.collision.y) {
-                    this.currentRoute++;
+                    this.nextRoute();
                 }
+            },
+            nextRoute: function() {
+                this.currentRoute++;
+                this.lastPos = this.pos;
             },
             getRouterFn: function(el) {
                 var aRoute = el.split('-'),
@@ -115,6 +120,20 @@ ig.module('plugins.entities.platform')
                             }
                         };
                         break;
+                    case 's':
+                        var time = aRoute[0] / 1000, timer = new ig.Timer(time);
+                        timer.pause();
+                        routeFn = function(pos) {
+                            if (timer.delta() >= time) {
+                                timer.reset();
+                                timer.pause();
+                                self.traceRoute(true);
+                            } else {
+                                timer.unpause();
+                                self.vel.x = self.vel.y = 0;
+                            }
+                        };
+                        break;
                     default:
                         routeFn = null;
                         break;
@@ -146,8 +165,7 @@ ig.module('plugins.entities.platform')
                 }
 
                 if (nextRoute) {
-                    this.currentRoute++;
-                    this.lastPos = this.pos;
+                    this.nextRoute();
                 }
 
                 if (this.routes[this.currentRoute] instanceof Function) {
