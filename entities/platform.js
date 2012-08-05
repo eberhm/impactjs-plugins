@@ -8,9 +8,9 @@
  *
  * In the weltmeister editor or then at runtime you can set the route and platformType.
  *
- * route: string defining the platform movement. Example route '50-r|50-l|10-u|10-d'. The | symbol
+ * route: string defining the platform movement. Example route '50-r|50-l|10-u|10-d|1000-s'. The | symbol
  * separates single routes and the - symbol separates between length and direction. Possible directions are
- * u(up) d(down) r(right) and l(left). Length is in pixels.
+ * u(up) d(down) r(right) l(left) and s(still). Length is in pixels as for still routes, time is in milliseconds
  *
  * platformType: defines the platform behaviour after completing all the routes. Possibles values:
  * 'respawn'  : the entity re-spawns itself again at the initial point. Typical for vertical gaps, etc
