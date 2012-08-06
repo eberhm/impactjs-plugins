@@ -41,7 +41,7 @@ ig.module('plugins.entities.platform')
             currentRoute: 0,
             platformType: 'circular',
             className: '',
-            routeTimer: null,
+            paused: false,
             endRouteAnim: function() {},
             init: function(x, y, settings) {
                 this.parent(x, y, settings);
@@ -52,6 +52,12 @@ ig.module('plugins.entities.platform')
             },
             doInit: function() {
                 this.addAnim('idle', 0.2, [1]);
+            },
+            pause: function() {
+                this.paused = true;
+            },
+            resume: function() {
+                this.paused = false;
             },
             initRoutes: function() {
                 var routes = this.route.split('|'),
@@ -146,6 +152,10 @@ ig.module('plugins.entities.platform')
                 this.parent();
             },
             traceRoute: function(nextRoute) {
+                if (this.paused) {
+                    return;
+                }
+
                 if (this.currentRoute >= this.routes.length) {
                     this.endRouteAnim();
                     switch (this.platformType) {
